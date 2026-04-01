@@ -7,17 +7,15 @@ pub const SHM_PATH: &str = "/dev/shm/ipc_demo_ring";
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Message {
-    pub key: [u8; 32],
-    pub val: [u8; 32],
+    pub key: u64,
+    pub val: u64,
     pub ts: u64,
 }
 
 impl Message {
     pub fn new(rng: &mut impl rand::Rng) -> Self {
-        let mut key = [0u8; 32];
-        let mut val = [0u8; 32];
-        rng.fill_bytes(&mut key);
-        rng.fill_bytes(&mut val);
+        let key: u64 = rng.random();
+        let val: u64 = rng.random();
         Message { key, val, ts: 0 }
     }
 }
